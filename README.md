@@ -1,29 +1,17 @@
-# dictation
+# Dictation Marking Algorithm
+By Benedict Mateo
 
-## Project setup
-```
-npm install
-```
+## Requirements
+* Vue CLI
+* NodeJS
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Description
+An algorithm to delete, insert, transpose and track a word in a sentence. To make this work you must have two sentences.<br/>
+For example the main source is `Can you write me a sentence where should I put?`<br/>
+And the sentence to be fix is `can You me write a a sentence where should put I remark?`<br/>
+<br/>
+And the result should look like this:
+![alt text](https://i.postimg.cc/8zZDdmkJ/Screen-Shot-2019-09-03-at-7-57-05-PM.png)
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Current Status
+This is still a work in progress
