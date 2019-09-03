@@ -76,22 +76,18 @@ export default {
           if (Om.includes(n)) cl.push(100);
           else cl.push(levenshtein(mStr[m], nStr[n]));
         }
-        Om[m] = this.findMinIndex(cl);
+        const min = Math.min.apply(Math, cl);
+        Om[m] = min == 1 ? cl.indexOf(min) : -1; //this.findMinIndex(cl);
       }
-      return Om;
+
+      // time complexity of On
+      let On = [];
+      for (let n = 0; n < nStr.length; n++) {
+        On.push(Om.indexOf(n))
+      }
+      return On;
     },
-    findMinIndex(array) {
-      let min = array[0];
-      let index = 0;
-      for (let i = 1; i < array.length; i++) {
-        if (min > array[i]) {
-          min = array[i];
-          index = i;
-        }
-      }
-      return min == 1 ? index : -1;
-    }
-  }
+  },
 }
 </script>
 
