@@ -1,7 +1,25 @@
 {
   "name": "dictation",
   "version": "0.1.0",
-  "private": true,
+  "description": "Dictation Marking Algorith using levenshtein and algo referenced from KMP search.",
+  "keywords": [
+      "algorithm",
+      "levenshtein",
+      "vue"
+  ],
+  "bugs": {
+      "url": "https://github.com/benedictpmateo/dictation-algorithm/issues",
+      "email": "benedictpmateo@gmai.com"
+  },
+  "license": "MIT",
+  "author": "Benedict Mateo",
+  "contributors": [
+      "Benedict Mateo (https://benedictpmateo.github.io/)"
+  ],
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/benedictpmateo/dictation-algorithm.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
