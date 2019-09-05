@@ -31,10 +31,7 @@
 
     <v-card>
       <v-container>
-        <template v-if="result.length > 0">
-          <p v-for="(res, i) of result" :key="i">{{ res }}</p>
-        </template>
-        <div v-else>No result..</div>
+        <result :items="result"/>
       </v-container>
     </v-card>
     
@@ -42,14 +39,18 @@
 </template>
 
 <script>
+import Result from './Result';
 import levenshtein from '../helpers/levenshteinDistance';
 
 export default {
   name: 'Dictation',
+  components: {
+    Result,
+  },
   data: () => ({
     main: 'the quick brown fox jumps over the lazy dog.',
     student: 'the brown quick fox xxx yyy jups the a lazy cat.',
-    result: '',
+    result: [],
   }),
   methods: {
     handleSubmit() {
@@ -68,7 +69,7 @@ export default {
         let n;
         for (n = 0; n < nStr.length; n++) {
           if (!Om.includes(n)) {
-            if (mStr[m] == nStr[n]) {
+            if (mStr[m].replace(/[?!.,]/g, '') == nStr[n].replace(/[?!.,]/g, '')) {
               Om.push(n);
               n = -1;
               break;
@@ -87,7 +88,7 @@ export default {
         let cl = [];
         for (let n = 0; n < nStr.length; n++) {
           if (Om.includes(n)) cl.push(100); // i put 100 to have a high value
-          else cl.push(levenshtein(mStr[m], nStr[n]));
+          else cl.push(levenshtein(mStr[m].replace(/[?!.,]/g, ''), nStr[n].replace(/[?!.,]/g, '')));
         }
         const min = Math.min.apply(Math, cl);
         Om[m] = min == 1 ? cl.indexOf(min) : -1;
@@ -151,7 +152,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
