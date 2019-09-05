@@ -1,45 +1,67 @@
 <template>
   <v-container>
-    <v-card class="mb-3">
-      <v-container fluid grid-list-md>
-        <v-form>
-          <v-layout row wrap>
-            <v-flex
-              xs12
-              md6>
-              <v-textarea
-                outline
-                v-model="main"
-                label="Main sentence"
-              ></v-textarea>
-            </v-flex>
-            <v-flex 
-              xs12
-              md6>
-              <v-textarea
-                outline
-                v-model="student"
-                label="Student sentence"
-              ></v-textarea>
-            </v-flex>
-          </v-layout>
-
-          <v-btn @click.prevent="handleSubmit" type="submit" outline block color="indigo" large>Submit</v-btn>
+    <v-layout text-xs-center wrap>
+      <v-flex xs12>
+        <v-img
+          :src="require('../assets/logo.png')"
+          class="my-3"
+          contain
+          height="100"
+        ></v-img>
+        <h1 class="font-weight-bold mb-3">
+          Dictation Marking Page
+        </h1>
+      </v-flex>
+      <v-flex xs12 md12>
+        <v-form ref="form" v-model="valid">
+          <v-container>
+            <v-layout wrap>
+              <v-flex xs12 md6>
+                <v-textarea
+                  outline
+                  name="model"
+                  label="Model sentences"
+                  no-resize
+                  height="200px"
+                  v-model="main"
+                  :rules="[(v) => Boolean(v) || 'Input teacher\'s model sentences.']"
+                ></v-textarea>
+              </v-flex>
+              <v-flex xs12 md6>
+                <v-textarea
+                  outline
+                  name="model"
+                  label="Student sentences"
+                  no-resize
+                  height="200px"
+                  v-model="student"
+                  :rules="[(v) => Boolean(v) || 'Input student\'s answer sentences.']"
+                ></v-textarea>
+              </v-flex>
+            </v-layout>
+            <v-btn large color="primary" @click.prevent="handleSubmit">Mark</v-btn>
+          </v-container>
         </v-form>
-      </v-container>
-    </v-card>
-
-    <v-card>
-      <v-container>
-        <result :items="result"/>
-      </v-container>
-    </v-card>
-    
+      </v-flex>
+      <v-flex class="text-sm-left">
+        <v-container>
+          <v-card color="#26c6da" dark>
+            <v-card-title>
+              <span class="title font-weight-light">Marking Result</span>
+            </v-card-title>
+            <v-card-text class="pb-5">
+              <result :items="result"/>
+            </v-card-text>
+          </v-card>
+        </v-container>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
 import Result from './Result';
+import { formatStr } from '../helpers/utilities';
 import levenshtein from '../helpers/levenshteinDistance';
 
 export default {
@@ -48,8 +70,8 @@ export default {
     Result,
   },
   data: () => ({
-    main: 'the quick brown fox jumps over the lazy dog.',
-    student: 'the brown quick fox xxx yyy jups the a lazy cat.',
+    main: '',
+    student: '',
     result: [],
   }),
   methods: {
@@ -69,7 +91,7 @@ export default {
         let n;
         for (n = 0; n < nStr.length; n++) {
           if (!Om.includes(n)) {
-            if (mStr[m].replace(/[?!.,]/g, '') == nStr[n].replace(/[?!.,]/g, '')) {
+            if (formatStr(mStr[m]) == formatStr(nStr[n])) {
               Om.push(n);
               n = -1;
               break;
@@ -88,7 +110,7 @@ export default {
         let cl = [];
         for (let n = 0; n < nStr.length; n++) {
           if (Om.includes(n)) cl.push(100); // i put 100 to have a high value
-          else cl.push(levenshtein(mStr[m].replace(/[?!.,]/g, ''), nStr[n].replace(/[?!.,]/g, '')));
+          else cl.push(levenshtein(formatStr(mStr[m]), formatStr(nStr[n])));
         }
         const min = Math.min.apply(Math, cl);
         Om[m] = min == 1 ? cl.indexOf(min) : -1;
@@ -146,6 +168,13 @@ export default {
           // if nothing catches the index
           On[n] = -1;
         }
+      }
+      for (; n < On.length; n++) {
+        result.push({
+          action: "DELETE",
+          word: nStr[n],
+          index: n,
+        })
       }
       return result;
     }
