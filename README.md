@@ -12,5 +12,8 @@ And the sentence to be fix is `can You me write a a sentence where should put I 
 And the result should look like this:
 ![alt text](https://i.postimg.cc/8zZDdmkJ/Screen-Shot-2019-09-03-at-7-57-05-PM.png)
 
-## Contributions
-Need help for contributors to make this much more fluent in reading the sentences.
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
